@@ -40,13 +40,25 @@ class BooksApp extends React.Component {
      */
     moveToShelf = (book, shelf) => {
         console.info(`Moving book '${book.title}' to shelf '${shelf}'`);
-        this.setState((state) => ({
-            books: state.books.map((b) => (
-                b.id === book.id ? Object.assign(b, { shelf: shelf }) : b))
-        }));
 
-        // TODO: Call BooksAPI.update
-        // BooksAPI.update(book, shelf);
+        this.setState((state) => {
+            // careful to not change this.state, but the passed state.
+            const foundBook = state.books.find((b) => b.id === book.id);
+            if (!foundBook) {
+                const newBook = Object.assign({}, book, { shelf: shelf });
+                state.books.push(newBook);
+            }
+            else {
+                Object.assign(foundBook, { shelf: shelf })
+            }
+
+            return { books: state.books };
+
+            // TODO: double check/improve the above!
+        });
+
+        // TODO: check this is working!
+        BooksAPI.update(book, shelf);
     }
 
     render() {
@@ -63,7 +75,10 @@ class BooksApp extends React.Component {
                     />
                 )}/>
                 <Route path="/search" render={() => (
-                    <SearchBooks />
+                    <SearchBooks
+                        shelves={shelves}
+                        onSelectShelf={this.moveToShelf}
+                    />
                 )}/>
             </div>
         )

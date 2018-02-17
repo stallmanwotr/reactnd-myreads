@@ -1,8 +1,15 @@
 import React from 'react';
-import BookShelvesPage from './BookShelvesPage'
-import SearchBooksPage from './SearchBooksPage'
-import * as BooksAPI from './BooksAPI'
+import BookShelves from './books/BookShelves'
+import SearchBooksPage from './search/SearchBooksPage'
+import * as BooksAPI from './util/BooksAPI'
 import './App.css';
+
+/** The ordered list of shelves to show in the UI. */
+const shelves = [
+    { id: "currentlyReading", title: "Currently Reading"},
+    { id: "wantToRead", title: "Want to Read"},
+    { id: "read", title: "Read"}
+]
 
 class BooksApp extends React.Component {
     state = {
@@ -25,16 +32,36 @@ class BooksApp extends React.Component {
         });
     }
 
+    /**
+     * Moves a book to the specified shelf, and updates the backend state.
+     *   Note: Use arrow function '=>' so that the function is bound to 'this',
+     * when invoked as a callout. Could have used ".bind(this)" instead.
+     */
+    moveToShelf = (book, shelf) => {
+        console.info(`Moving book '${book.title}' to shelf '${shelf}'`);
+        this.setState((state) => ({
+            books: state.books.map((b) => (
+                b.id === book.id ? Object.assign(b, { shelf: shelf }) : b))
+        }));
+
+        // TODO: Call BooksAPI.update
+        // BooksAPI.update(book, shelf);
+    }
+
     render() {
         const { books } = this.state;
-        console.info("Render: " + JSON.stringify(books));
+        console.info("Render books, count: " + books.length);
 
         return (
             <div className="app">
                 {this.state.showSearchPage ? (
                     <SearchBooksPage />
                 ) : (
-                    <BookShelvesPage books={books} />
+                    <BookShelves
+                        books={books}
+                        shelves={shelves}
+                        onSelectShelf={this.moveToShelf}
+                    />
                 )}
             </div>
         )

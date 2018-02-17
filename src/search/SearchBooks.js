@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 /**
  *
  */
-class SearchBooksPage extends Component {
+class SearchBooks extends Component {
     //static propTypes = {
     //}
 
@@ -33,4 +33,4 @@ class SearchBooksPage extends Component {
     }
 }
 
-export default SearchBooksPage;
+export default SearchBooks;

@@ -17,9 +17,10 @@ class SearchBooks extends Component {
     }
 
     state = {
-        // TODO: put query here is is maintained as route
+        // the query string entered by the user.
+        query: '',
 
-        // the current books that match the search query.
+        // the current books that match the query.
         matchedBooks: []
     }
 
@@ -27,13 +28,16 @@ class SearchBooks extends Component {
      * Invoked when the user enters a search query.
      *   Performs a search and updates the matching list of books.
      */
-    handleSearch = (e) => {
-        const query = e.target.value.trim();
+    handleSearch = (event) => {
+        const query = event.target.value.trim();
         console.info("Handle Search: " + query);
 
         // if the query is empty, clear the grid.
-        if (query.length === 100000) {
-            this.setState({ matchedBooks: [] });
+        if (query.length === 0) {
+            this.setState({
+                query: query,
+                matchedBooks: []
+            });
         }
 
         // send the search to the backend.
@@ -45,7 +49,11 @@ class SearchBooks extends Component {
                     books = [];
                 }
                 console.info(`Query '${query}' matched ${books.length} books`);
-                this.setState({ matchedBooks: books });
+
+                this.setState({
+                    query: query,
+                    matchedBooks: books
+                });
             });
         }
     }

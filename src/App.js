@@ -66,7 +66,6 @@ class BooksApp extends React.Component {
             const found = this.state.books.find((b) => (b.id === book.id));
             return found && found.shelf ? found.shelf : "none";
         }
-        return "none";
     }
 
     render() {

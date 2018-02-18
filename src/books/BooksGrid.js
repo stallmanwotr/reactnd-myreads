@@ -8,10 +8,10 @@ import BookItem from './BookItem'
  */
 class BooksGrid extends Component {
     static propTypes = {
-        // the list of books to show in the grid.
+        // the book objects to show in the grid.
         books: PropTypes.array.isRequired,
 
-        // handler when the user selects a shelf for the book.
+        // handler when the user selects a shelf for a book.
         onSelectShelf: PropTypes.func.isRequired,
 
         // get the book's shelf if it doesn't have a shelf field.

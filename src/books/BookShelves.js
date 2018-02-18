@@ -11,10 +11,10 @@ import * as Consts from '../util/Consts'
  */
 class BookShelves extends Component {
     static propTypes = {
-        // the list of all books, and the shelves to show.
+        // the list of active books.
         books: PropTypes.array.isRequired,
 
-        // handler when the user selects a shelf for the book.
+        // handler when the user selects a shelf for a book.
         onSelectShelf: PropTypes.func.isRequired
     }
 
@@ -34,7 +34,7 @@ class BookShelves extends Component {
                                 <h2 className="bookshelf-title">{ shelf.title }</h2>
                                 <div className="bookshelf-books">
                                     <BooksGrid
-                                        books={books.filter((book) => (book.shelf === shelf.id))}
+                                        books={ books.filter((book) => (book.shelf === shelf.id)) }
                                         onSelectShelf={onSelectShelf}
                                     />
                                 </div>

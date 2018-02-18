@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import * as Consts from '../util/Consts'
 
 /**
  * A React component that renders an individual book.
- *   The book to be moved to another shelf using a popup menu.
+ *   The book can be moved to another shelf using the popup menu.
  */
 class BookItem extends Component {
     static propTypes = {
@@ -22,7 +22,7 @@ class BookItem extends Component {
         const { book, onSelectShelf, getCurrentShelf } = this.props;
         const bookShelf = book.shelf ? book.shelf : getCurrentShelf(book);
 
-        // the start code has width/height here, normally this would be css.
+        // the starter code has width/height here, normally this would be css.
         let coverStyle = { width: 128, height: 193 };
         if (book.imageLinks && book.imageLinks.thumbnail) {
             coverStyle.backgroundImage = "url(" + book.imageLinks.thumbnail + ")";

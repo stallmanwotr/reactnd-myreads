@@ -5,13 +5,6 @@ import SearchBooks from './search/SearchBooks'
 import * as BooksAPI from './util/BooksAPI'
 import './App.css';
 
-/** The ordered list of shelves to show in the UI. */
-const shelves = [
-    { id: "currentlyReading", title: "Currently Reading"},
-    { id: "wantToRead", title: "Want to Read"},
-    { id: "read", title: "Read"}
-]
-
 class BooksApp extends React.Component {
     state = {
         /**
@@ -39,7 +32,7 @@ class BooksApp extends React.Component {
      * when invoked as a callout. Could have used ".bind(this)" instead.
      */
     moveToShelf = (book, shelf) => {
-        console.info(`Moving book '${book.title}' to shelf '${shelf}'`);
+        console.info(`Updating book '${book.title}' to shelf '${shelf}'`);
 
         this.setState((state) => {
             // careful to not change this.state, but the passed state.
@@ -57,7 +50,7 @@ class BooksApp extends React.Component {
             // TODO: double check/improve the above!
         });
 
-        // TODO: check this is working!
+        // update the backend.
         BooksAPI.update(book, shelf);
     }
 
@@ -70,13 +63,11 @@ class BooksApp extends React.Component {
                 <Route exact path="/" render={() => (
                     <BookShelves
                         books={books}
-                        shelves={shelves}
                         onSelectShelf={this.moveToShelf}
                     />
                 )}/>
                 <Route path="/search" render={() => (
                     <SearchBooks
-                        shelves={shelves}
                         onSelectShelf={this.moveToShelf}
                     />
                 )}/>

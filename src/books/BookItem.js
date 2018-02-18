@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
+import * as Consts from '../util/Consts'
 
 /**
  * A React component that renders an individual book.
@@ -10,18 +11,15 @@ class BookItem extends Component {
         // book object as per the books API.
         book: PropTypes.object.isRequired,
 
-        // the shelves shown in the UI.
-        shelves: PropTypes.array.isRequired,
-
         // handler when the user selects a shelf for the book.
         onSelectShelf: PropTypes.func.isRequired
     }
 
     render() {
-        const { book, shelves, onSelectShelf } = this.props;
-
+        const { book, onSelectShelf } = this.props;
         const bookShelf = book.shelf ? book.shelf : "none";
 
+        // the start code has width/height here, normally this would be css.
         let coverStyle = { width: 128, height: 193 };
         if (book.imageLinks && book.imageLinks.thumbnail) {
             coverStyle.backgroundImage = "url(" + book.imageLinks.thumbnail + ")";
@@ -38,7 +36,7 @@ class BookItem extends Component {
                             onChange={(event) => onSelectShelf(book, event.target.value)} >
 
                             <option value="" disabled>Move to...</option>
-                            {shelves.map((shelf) => (
+                            { Consts.SHELVES.map((shelf) => (
                                 <option
                                     key={shelf.id}
                                     value={shelf.id}>{shelf.title}</option>

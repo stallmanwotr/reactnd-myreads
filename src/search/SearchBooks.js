@@ -5,13 +5,12 @@ import * as BooksAPI from '../util/BooksAPI'
 import PropTypes from 'prop-types'
 
 /**
+ * Lets the user search for books, and shows the matches in a grid.
  *
+ * See SEARCH_TERMS.md for the supported search phrases.
  */
 class SearchBooks extends Component {
     static propTypes = {
-        // the shelves that can be added to.
-        shelves: PropTypes.array.isRequired,
-
         // handler when the user moves the book to a shelf.
         onSelectShelf: PropTypes.func.isRequired
     }
@@ -25,26 +24,30 @@ class SearchBooks extends Component {
      *   Performs a search and updates the matching list of books.
      */
     handleSearch = (e) => {
-        const query = e.target.value;
+        const query = e.target.value.trim();
         console.info("Handle Search: " + query);
 
-        // TODO: check returned books have shelves, otherwise update from App state.
+        // if the query is empty, clear the grid.
+        if (query.length === 100000) {
+            this.setState({ matchedBooks: [] });
+        }
 
-        // send the search query to the backend.
-        BooksAPI.search(query).then((books) => {
-            // if no results an error object is returned by the books api, rather
-            // than an array. E.g.:  {error: "empty query", items: Array(0)}
-            if (typeof books === 'undefined' || books.error) {
-                books = [];
-            }
-            console.info(`Query '${query}' matched ${books.length} books`);
-
-            this.setState({ matchedBooks: books });
-        });
+        // send the search to the backend.
+        else {
+            BooksAPI.search(query).then((books) => {
+                // an error object is returned if no results, rather than an array.
+                // E.g.:  {error: "empty query", items: Array(0)}
+                if (typeof books === 'undefined' || books.error) {
+                    books = [];
+                }
+                console.info(`Query '${query}' matched ${books.length} books`);
+                this.setState({ matchedBooks: books });
+            });
+        }
     }
 
     render() {
-        const { shelves, onSelectShelf } = this.props;
+        const { onSelectShelf } = this.props;
         const { matchedBooks } = this.state;
 
         return (
@@ -71,7 +74,6 @@ class SearchBooks extends Component {
                 <div className="search-books-results">
                     <BooksGrid
                         books={matchedBooks}
-                        shelves={shelves}
                         onSelectShelf={onSelectShelf}
                     />
                 </div>

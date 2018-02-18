@@ -8,18 +8,15 @@ import BookItem from './BookItem'
  */
 class BooksGrid extends Component {
     static propTypes = {
-        // the list of all books, and the shelves to show.
+        // the list of books to show in the grid.
         books: PropTypes.array.isRequired,
-
-        // the shelves shown in the UI.
-        shelves: PropTypes.array.isRequired,
 
         // handler when the user selects a shelf for the book.
         onSelectShelf: PropTypes.func.isRequired
     }
 
     render() {
-        const { books, shelves, onSelectShelf } = this.props;
+        const { books, onSelectShelf } = this.props;
 
         return (
             <ol className="books-grid">
@@ -27,7 +24,6 @@ class BooksGrid extends Component {
                     <li key={book.id} >
                         <BookItem
                             book={book}
-                            shelves={shelves}
                             onSelectShelf={onSelectShelf}
                         />
                     </li>

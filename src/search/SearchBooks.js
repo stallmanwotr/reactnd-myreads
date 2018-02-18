@@ -6,16 +6,20 @@ import PropTypes from 'prop-types'
 
 /**
  * Lets the user search for books, and shows the matches in a grid.
- *
- * See SEARCH_TERMS.md for the supported search phrases.
  */
 class SearchBooks extends Component {
     static propTypes = {
         // handler when the user moves the book to a shelf.
-        onSelectShelf: PropTypes.func.isRequired
+        onSelectShelf: PropTypes.func.isRequired,
+
+        // get the book's shelf if it doesn't have a shelf field.
+        getCurrentShelf: PropTypes.func
     }
 
     state = {
+        // TODO: put query here is is maintained as route
+
+        // the current books that match the search query.
         matchedBooks: []
     }
 
@@ -47,7 +51,7 @@ class SearchBooks extends Component {
     }
 
     render() {
-        const { onSelectShelf } = this.props;
+        const { onSelectShelf, getCurrentShelf } = this.props;
         const { matchedBooks } = this.state;
 
         return (
@@ -75,6 +79,7 @@ class SearchBooks extends Component {
                     <BooksGrid
                         books={matchedBooks}
                         onSelectShelf={onSelectShelf}
+                        getCurrentShelf={getCurrentShelf}
                     />
                 </div>
             </div>

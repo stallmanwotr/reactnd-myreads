@@ -8,16 +8,19 @@ import * as Consts from '../util/Consts'
  */
 class BookItem extends Component {
     static propTypes = {
-        // book object as per the books API.
+        // a book object as per the books API.
         book: PropTypes.object.isRequired,
 
         // handler when the user selects a shelf for the book.
-        onSelectShelf: PropTypes.func.isRequired
+        onSelectShelf: PropTypes.func.isRequired,
+
+        // get the book's shelf if it doesn't have a shelf field.
+        getCurrentShelf: PropTypes.func
     }
 
     render() {
-        const { book, onSelectShelf } = this.props;
-        const bookShelf = book.shelf ? book.shelf : "none";
+        const { book, onSelectShelf, getCurrentShelf } = this.props;
+        const bookShelf = book.shelf ? book.shelf : getCurrentShelf(book);
 
         // the start code has width/height here, normally this would be css.
         let coverStyle = { width: 128, height: 193 };
@@ -39,7 +42,8 @@ class BookItem extends Component {
                             { Consts.SHELVES.map((shelf) => (
                                 <option
                                     key={shelf.id}
-                                    value={shelf.id}>{shelf.title}</option>
+                                    value={shelf.id}
+                                >{shelf.title}</option>
                             ))}
                             <option value="none">None</option>
                         </select>

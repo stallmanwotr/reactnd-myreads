@@ -54,6 +54,21 @@ class BooksApp extends React.Component {
         BooksAPI.update(book, shelf);
     }
 
+    /**
+     * (Callout) Books returned from search don't have a shelf field, even though
+     * the backend has been updated. In this case, get the shelf from the state.
+     */
+    getCurrentShelf = (book, shelf) => {
+        if (book.shelf) {
+            return book.shelf;
+        }
+        else {
+            const found = this.state.books.find((b) => (b.id === book.id));
+            return found && found.shelf ? found.shelf : "none";
+        }
+        return "none";
+    }
+
     render() {
         const { books } = this.state;
         console.info("Render books, count: " + books.length);
@@ -69,6 +84,7 @@ class BooksApp extends React.Component {
                 <Route path="/search" render={() => (
                     <SearchBooks
                         onSelectShelf={this.moveToShelf}
+                        getCurrentShelf={this.getCurrentShelf}
                     />
                 )}/>
             </div>

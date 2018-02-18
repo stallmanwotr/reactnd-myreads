@@ -12,11 +12,14 @@ class BooksGrid extends Component {
         books: PropTypes.array.isRequired,
 
         // handler when the user selects a shelf for the book.
-        onSelectShelf: PropTypes.func.isRequired
+        onSelectShelf: PropTypes.func.isRequired,
+
+        // get the book's shelf if it doesn't have a shelf field.
+        getCurrentShelf: PropTypes.func
     }
 
     render() {
-        const { books, onSelectShelf } = this.props;
+        const { books, onSelectShelf, getCurrentShelf } = this.props;
 
         return (
             <ol className="books-grid">
@@ -25,6 +28,7 @@ class BooksGrid extends Component {
                         <BookItem
                             book={book}
                             onSelectShelf={onSelectShelf}
+                            getCurrentShelf={getCurrentShelf}
                         />
                     </li>
                 ))}
